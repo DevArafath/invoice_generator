@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f4f4f4;
+    }
+    .invoice-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 800px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      padding: 5px;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    .no-border {
+      border: none;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    @media print {
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="invoice-box">
+  <h2>Invoice</h2>
+
+  <div>
+    <label>Client Name: </label>
+    <input type="text" id="clientName" placeholder="Enter client name">
+  </div>
+
+  <table id="invoiceTable">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th class="no-print">Action</th>
+      </tr>
+    </thead>
+    <tbody id="invoiceBody">
+      <tr>
+        <td><input type="text" class="item"></td>
+        <td><input type="number" class="qty" value="1"></td>
+        <td><input type="number" class="price" value="0"></td>
+        <td class="total">0</td>
+        <td class="no-print"><button onclick="removeRow(this)">❌</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn no-print" onclick="addRow()">➕ Add Item</button>
+
+  <h3 style="text-align:right;">Grand Total: $<span id="grandTotal">0</span></h3>
+
+  <button class="btn no-print" onclick="window.print()">🖨️ Print Invoice</button>
+</div>
+
+<script>
+  function updateTotals() {
+    let rows = document.querySelectorAll("#invoiceBody tr");
+    let grandTotal = 0;
+
+    rows.forEach(row => {
+      let qty = row.querySelector(".qty").value;
+      let price = row.querySelector(".price").value;
+      let total = qty * price;
+      row.querySelector(".total").textContent = total.toFixed(2);
+      grandTotal += total;
+    });
+
+    document.getElementById("grandTotal").textContent = grandTotal.toFixed(2);
+  }
+
+  function addRow() {
+    const tbody = document.getElementById("invoiceBody");
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input type="text" class="item"></td>
+      <td><input type="number" class="qty" value="1"></td>
+      <td><input type="number" class="price" value="0"></td>
+      <td class="total">0</td>
+      <td class="no-print"><button onclick="removeRow(this)">❌</button></td>
+    `;
+    tbody.appendChild(row);
+    attachEvents();
+  }
+
+  function removeRow(button) {
+    button.parentElement.parentElement.remove();
+    updateTotals();
+  }
+
+  function attachEvents() {
+    const inputs = document.querySelectorAll(".qty, .price");
+    inputs.forEach(input => {
+      input.oninput = updateTotals;
+    });
+  }
+
+  // Initial event attach
+  attachEvents();
+</script>
+
+</body>
+</html>

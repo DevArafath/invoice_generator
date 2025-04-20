@@ -310,123 +310,141 @@
     
     
         /* ============================ */
-        /* === PRINT STYLES (Final) === */
-        /* ============================ */
-        @media print {
-            html, body {
-                height: auto !important; /* Let content dictate height */
-                min-height: 0 !important;
-                background-color: #fff !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                font-size: 10pt;
-                -webkit-print-color-adjust: exact !important; color-adjust: exact !important;
-            }
+/* === PRINT STYLES (Revised) === */
+/* ============================ */
+@media print {
+    @page {
+        size: A4; /* Or Letter, etc. Define your page size */
+        margin: 15mm; /* Define base page margins - adjust as needed */
+        /* You can have specific margins: margin-top, margin-bottom, etc. */
+    }
 
-            #invoice-container {
-                width: 100% !important;
-                max-width: 100% !important;
-                min-height: 0 !important; /* CRITICAL: Remove min-height constraint */
-                height: 100% !important; /* Try forcing container to fill page height */
-                margin: 0 !important;
-                padding: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                display: flex !important; /* Keep flex */
-                flex-direction: column !important; /* Keep column direction */
-                overflow: visible !important;
-                border-radius: 0 !important;
-                page-break-inside: avoid !important; /* Try to keep container on one page */
-            }
+    html, body {
+        height: 100% !important; /* CRITICAL: Force html/body to page height */
+        min-height: 100% !important; /* Reinforce */
+        background-color: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 10pt;
+        -webkit-print-color-adjust: exact !important; color-adjust: exact !important;
+        display: flex; /* Make body a flex container too */
+        flex-direction: column; /* Body arranges children vertically */
+    }
 
-            #invoice-main-content {
-                flex-grow: 1 !important; /* Allow main content to take available space */
-                /* Significantly reduce vertical padding */
-                padding: 5mm 15mm 5mm 15mm !important;
-                width: 100% !important;
-                height: auto; /* Let content determine its height */
-            }
+    #invoice-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 0 !important; /* Remove min-height screen constraint */
+        height: auto; /* Let flex children determine height */
+        flex-grow: 1; /* CRITICAL: Allow container to grow within body */
+        margin: 0 !important;
+        padding: 0 !important; /* Remove container padding if content has it */
+        border: none !important;
+        box-shadow: none !important;
+        display: flex !important; /* Keep flex */
+        flex-direction: column !important; /* Keep column direction */
+        overflow: visible !important;
+        border-radius: 0 !important;
+        /* page-break-inside: avoid !important; REMOVE THIS - it conflicts with wanting footer at bottom if content is short */
+    }
 
-            /* --- Hide elements not needed for print --- */
-            .action-buttons, .modal-overlay, .delete-item-btn,
-            #invoice-items thead th:last-child, /* Hide Action header */
-            #invoice-items tbody td:last-child, /* Hide Action cell in body */
-            #invoice-items tfoot td:last-child  /* Hide Action cell in footer */
-            {
-                display: none !important;
-            }
+    #invoice-main-content {
+        flex-grow: 1 !important; /* Allow main content to take available space */
+        padding: 5mm 0 5mm 0 !important; /* Adjust padding - use page margin for sides */
+        width: 100% !important; /* Takes width from container */
+        height: auto; /* Let content determine its height */
+        /* Add page-break-inside avoid *here* if you want to prevent the main content block itself from splitting */
+        page-break-inside: avoid !important;
+    }
 
-            /* Remove scroll wrapper for print */
-            .invoice-items-wrapper { overflow: visible !important; margin-bottom: 10px !important; /* Reduce space after table */ }
+    /* --- Header/Footer Print Placement --- */
+    .invoice-header-img {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important; /* Remove margin */
+        padding: 0 !important;
+        /* Add some bottom margin if needed for space *below* the header */
+        margin-bottom: 5mm !important;
+        page-break-inside: avoid !important;
+        flex-shrink: 0; /* Prevent header from shrinking */
+    }
 
-            /* Ensure table layout is standard for print */
-            #invoice-items { width: 100% !important; min-width: 0 !important; border-collapse: collapse !important; border-spacing: 0 !important; }
-            #invoice-items thead { display: table-header-group !important; }
-            #invoice-items tbody, #invoice-items tfoot { display: table-row-group !important; }
-            #invoice-items tr { display: table-row !important; page-break-inside: avoid !important; }
+    .invoice-footer-img {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important; /* REMOVE ALL MARGINS INITIALLY */
+        /* Add margin-top for space *above* the footer */
+        margin-top: 5mm !important; /* Adjust as needed for visual spacing */
+        padding: 0 !important;
+        page-break-inside: avoid !important;
+        page-break-before: auto;
+        flex-shrink: 0; /* Prevent footer from shrinking */
+        /* Position it at the end of the flex flow */
+    }
 
-            /* --- Remove ALL Table Borders for Print --- */
-            #invoice-items th, #invoice-items td {
-                display: table-cell !important; width: auto !important;
-                border: none !important; /* NO BORDERS */
-                padding: 3px 5px !important; /* Reduced padding */
-                font-size: 9.5pt !important; /* Slightly smaller font if needed */
-                vertical-align: top !important;
-                white-space: normal !important;
-            }
-            #invoice-items th { background-color: #f0f0f0 !important; font-weight: bold; padding: 4px 5px !important; }
-            #invoice-items td.number, #invoice-items th.number { text-align: right !important; }
+    /* --- Hide elements not needed for print --- */
+    .action-buttons, .modal-overlay, .delete-item-btn,
+    #invoice-items thead th:last-child, /* Hide Action header */
+    #invoice-items tbody td:last-child, /* Hide Action cell in body */
+    #invoice-items tfoot td:last-child /* Hide Action cell in footer */
+    {
+        display: none !important;
+    }
 
-            /* Style Inputs/TextAreas for Print */
-            .invoice-meta input[type="text"], .invoice-meta input[type="date"], .invoice-meta textarea,
-            #invoice-items input[type="number"], #invoice-items textarea.item-name {
-                border: none !important; background-color: transparent !important; padding: 0 !important; margin: 0; box-shadow: none !important; outline: none !important; width: 100%; display: block; color: #000 !important; font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; -webkit-appearance: none; -moz-appearance: none; appearance: none;
-            }
-            .invoice-meta textarea, #invoice-items textarea.item-name { resize: none !important; overflow: hidden !important; height: auto !important; white-space: pre-wrap; word-wrap: break-word; }
-            #invoice-items input[type="number"] { text-align: right; width: auto; display: inline; -moz-appearance: textfield; }
+    /* Remove scroll wrapper for print */
+    .invoice-items-wrapper { overflow: visible !important; margin-bottom: 10px !important; }
 
-            /* Table Footer Specifics for Print (No Borders, subtle spacing) */
-            #invoice-items tfoot { margin-top: 3mm !important; /* Add tiny space before totals */ }
-            #invoice-items tfoot td {
-                border: none !important; /* Ensure no borders */
-                border-top: 1pt solid #bbb !important; /* Keep subtle top border ONLY */
-                padding-top: 4px !important;
-                padding-bottom: 4px !important;
-                font-weight: bold;
-            }
-            #invoice-items tfoot tr:not(:first-child) td {
-                border-top: none !important; /* No top border on discount etc. */
-            }
-            #invoice-items tfoot tr:first-child td {
-                border-top: 1pt solid #999 !important; /* Slightly stronger border on first totals row */
-            }
+    /* Ensure table layout is standard for print */
+    #invoice-items { width: 100% !important; min-width: 0 !important; border-collapse: collapse !important; border-spacing: 0 !important; }
+    #invoice-items thead { display: table-header-group !important; }
+    #invoice-items tbody, #invoice-items tfoot { display: table-row-group !important; }
+    #invoice-items tr { display: table-row !important; page-break-inside: avoid !important; }
 
-            /* --- Header/Footer Print Placement --- */
-            .invoice-header-img {
-                display: block !important;
-                width: 100% !important;
-                margin: 0 !important; /* Remove ALL margin */
-                padding: 0 !important; /* Remove ALL padding */
-                page-break-inside: avoid !important;
-            }
-            .invoice-footer-img {
-                display: block !important;
-                width: 100% !important;
-                margin: 0 !important; /* Remove ALL margin */
-                margin-top: auto !important; /* CRITICAL: Keep this to push to bottom */
-                padding: 0 !important; /* Remove ALL padding */
-                page-break-inside: avoid !important;
-                page-break-before: auto; /* Let it break if necessary, but avoid if possible */
-            }
+    /* --- Remove ALL Table Borders for Print --- */
+    #invoice-items th, #invoice-items td {
+        display: table-cell !important; width: auto !important;
+        border: none !important; /* NO BORDERS */
+        padding: 3px 5px !important; /* Reduced padding */
+        font-size: 9.5pt !important;
+        vertical-align: top !important;
+        white-space: normal !important;
+    }
+    #invoice-items th { background-color: #f0f0f0 !important; font-weight: bold; padding: 4px 5px !important; }
+    #invoice-items td.number, #invoice-items th.number { text-align: right !important; }
 
-            .terms-conditions {
-                border-top: none !important;
-                margin-top: 5mm !important; /* Reduce space before terms */
-                padding-top: 0 !important;
-                font-size: 8.5pt !important; /* Smaller terms font */
-                page-break-inside: avoid !important;
-            }
-        } /* End @media print */
+    /* Style Inputs/TextAreas for Print */
+    /* ... (keep your input styles) ... */
+    .invoice-meta input[type="text"], .invoice-meta input[type="date"], .invoice-meta textarea,
+    #invoice-items input[type="number"], #invoice-items textarea.item-name {
+        border: none !important; background-color: transparent !important; padding: 0 !important; margin: 0; box-shadow: none !important; outline: none !important; width: 100%; display: block; color: #000 !important; font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    }
+    .invoice-meta textarea, #invoice-items textarea.item-name { resize: none !important; overflow: hidden !important; height: auto !important; white-space: pre-wrap; word-wrap: break-word; }
+    #invoice-items input[type="number"] { text-align: right; width: auto; display: inline; -moz-appearance: textfield; }
+
+    /* Table Footer Specifics for Print (No Borders, subtle spacing) */
+    #invoice-items tfoot { margin-top: 3mm !important; }
+    #invoice-items tfoot td {
+        border: none !important; /* Ensure no borders */
+        border-top: 1pt solid #bbb !important; /* Keep subtle top border ONLY */
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        font-weight: bold;
+    }
+    #invoice-items tfoot tr:not(:first-child) td { border-top: none !important; }
+    #invoice-items tfoot tr:first-child td { border-top: 1pt solid #999 !important; }
+
+    .terms-conditions {
+        border-top: none !important;
+        margin-top: 5mm !important;
+        padding-top: 0 !important;
+        font-size: 8.5pt !important;
+        page-break-inside: avoid !important;
+        flex-shrink: 0; /* Prevent terms from shrinking if part of main flex flow */
+        /* If terms are *outside* #invoice-main-content but inside #invoice-container: */
+        /* margin-bottom: 5mm; /* Add space before footer */
+    }
+
+} /* End @media print */
     
     </style>
 </head>
@@ -800,7 +818,7 @@
         addDiscountBtn.addEventListener('click', handleAddDiscount);
         printBtn.addEventListener('click', handlePrint);
 
-        // Save data on input/change for meta fields & address textarea
+        // Save data on input/change for meta fields & address textareaS
         invoiceNumberInput.addEventListener('input', saveDataToLocalStorage);
         invoiceDateInput.addEventListener('change', saveDataToLocalStorage);
         dueDateInput.addEventListener('change', saveDataToLocalStorage);
