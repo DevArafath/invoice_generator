@@ -168,14 +168,14 @@
         .action-buttons button:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
     
         /* Specific Button Colors */
-        #add-item-btn { background-color: #28a745; }
+        #add-item-btn { background-color: #28a745; font-weight: bold; }
         #add-item-btn:hover { background-color: #218838; }
-        #add-discount-btn { background-color: #ffc107; color: #212529; }
+        #add-discount-btn { background-color: #ffc107; color: #212529; font-weight: bold; }
         #add-discount-btn:hover { background-color: #e0a800; }
-        #change-company-btn { background-color: #17a2b8; }
+        #change-company-btn { background-color: #17a2b8; font-weight: bold; }
         #change-company-btn:hover { background-color: #138496; }
-        #print-btn { background-color: #6c757d; }
-        #print-btn:hover { background-color: #5a6268; }
+        #print-btn { background-color: #ff3c00; font-weight: bold; }
+        #print-btn:hover { background-color: #b62727; }
     
         /* Terms and Conditions */
         .terms-conditions {
@@ -364,7 +364,7 @@
         margin: 0 !important; /* Remove margin */
         padding: 0 !important;
         /* Add some bottom margin if needed for space *below* the header */
-        margin-bottom: 5mm !important;
+        margin-bottom: 10px !important;
         page-break-inside: avoid !important;
         flex-shrink: 0; /* Prevent header from shrinking */
     }
@@ -480,7 +480,7 @@
                 </table>
             </div> <!-- END WRAPPER DIV -->
 
-             <!-- 4. Action Buttons -->
+            <!-- 4. Action Buttons -->
             <div class="action-buttons">
                 <button id="add-item-btn">Add Item</button>
                 <button id="add-discount-btn">Add Discount</button>
@@ -496,7 +496,7 @@
 
         </div> <!-- End #invoice-main-content -->
 
-         <!-- 6. Footer Image (Source will be set by JS) -->
+        <!-- 6. Footer Image (Source will be set by JS) -->
         <img src="" alt="Company Letterhead Footer" id="invoice-footer" class="invoice-footer-img">
 
     </div><!-- /#invoice-container -->
@@ -541,8 +541,8 @@
         const companyProfiles = [
             {
                 name: "Default Company",
-                header: "img/header_placeholder.png", // Default/fallback
-                footer: "img/footer_placeholder.png"
+                header: "img/default_header.png", // Default/fallback
+                footer: "img/default_footer.png"
             },
             {
                 name: "Creative Solutions Ltd.",
