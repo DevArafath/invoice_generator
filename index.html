@@ -237,7 +237,83 @@
         #company-modal-ok-btn:hover { background-color: #0056b3; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         #company-modal-cancel-btn { background-color: #6c757d; color: white; }
         #company-modal-cancel-btn:hover { background-color: #5a6268; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-    
+        
+
+        /* --- Discount Modal Specifics --- */
+        #discount-modal-content label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95em; color: #444; }
+        #discount-modal-content input[type="number"] {
+            width: 100%; padding: 10px 12px; margin-bottom: 15px;
+            border: 1px solid #ccc; border-radius: 5px; font-size: 1em;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        #discount-modal-content input:focus {
+            border-color: #ffc107; box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.25); outline: none;
+        }
+        #discount-modal-save-btn { background-color: #ffc107; color: #212529; }
+        #discount-modal-save-btn:hover { background-color: #e0a800; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #discount-modal-cancel-btn { background-color: #6c757d; color: white; }
+        #discount-modal-cancel-btn:hover { background-color: #5a6268; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* --- Delete Confirmation Modal Specifics --- */
+        #delete-confirm-modal-content p { margin-bottom: 5px; }
+        #delete-item-details {
+            background-color: #f8f9fa; border: 1px solid #eee;
+            padding: 12px 15px; margin: 15px 0; border-radius: 5px;
+            font-size: 0.95em; line-height: 1.5;
+        }
+        #delete-item-details strong { color: #333; }
+        #delete-confirm-btn { /* Style already added inline, but can be done here */ }
+        #delete-confirm-btn:hover { background-color: #c82333 !important; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #delete-cancel-btn { /* Style already added inline, but can be done here */ }
+        #delete-cancel-btn:hover { background-color: #5a6268 !important; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* Styles for the input+button container */
+        .input-with-button {
+            display: flex;
+            align-items: center; /* Vertically align input and button */
+            gap: 5px; /* Space between input and button */
+        }
+
+        .input-with-button input[type="text"] {
+            flex-grow: 1; /* Allow input to take available space */
+            /* Optional: Prevent button from shrinking input too much */
+            min-width: 100px;
+        }
+
+        /* Style for the Generate button */
+        .generate-btn {
+            padding: 6px 10px; /* Adjust padding */
+            font-size: 1em; /* Adjust font size if needed */
+            line-height: 1; /* Ensure text/icon is centered */
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 5px;
+            flex-shrink: 0; /* Prevent button from shrinking */
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            height: 45px;
+        }
+        .generate-btn:hover {
+            background-color: #e0e0e0;
+            border-color: #bbb;
+        }
+        .generate-btn:active {
+            background-color: #d5d5d5;
+        }
+
+        /* Ensure modal buttons stack correctly on mobile */
+        @media (max-width: 600px) {
+             #discount-modal-content .modal-buttons,
+             #delete-confirm-modal-content .modal-buttons {
+                 display: flex; flex-direction: column-reverse;
+                 gap: 10px; margin-top: 20px;
+            }
+             #discount-modal-content .modal-buttons button,
+             #delete-confirm-modal-content .modal-buttons button {
+                 width: 100%; margin-left: 0;
+             }
+        }
     
         /* =============================== */
         /* === MOBILE RESPONSIVE STYLES === */
@@ -309,143 +385,156 @@
         }
     
     
-        /* ============================ */
-/* === PRINT STYLES (Revised) === */
-/* ============================ */
-@media print {
-    @page {
-        size: A4; /* Or Letter, etc. Define your page size */
-        margin: 15mm; /* Define base page margins - adjust as needed */
-        /* You can have specific margins: margin-top, margin-bottom, etc. */
-    }
+    /* ============================ */
+    /* === PRINT STYLES (Revised) === */
+    /* ============================ */
+    @media print {
+        @page {
+            size: A4; /* Or Letter, etc. Define your page size */
+            margin: 15mm; /* Define base page margins - adjust as needed */
+            /* You can have specific margins: margin-top, margin-bottom, etc. */
+        }
 
-    html, body {
-        height: 100% !important; /* CRITICAL: Force html/body to page height */
-        min-height: 100% !important; /* Reinforce */
-        background-color: #fff !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        font-size: 10pt;
-        -webkit-print-color-adjust: exact !important; 
-        color-adjust: exact !important;
-        display: flex; /* Make body a flex container too */
-        flex-direction: column; /* Body arranges children vertically */
-    }
+        html, body {
+            height: 100% !important; /* CRITICAL: Force html/body to page height */
+            min-height: 100% !important; /* Reinforce */
+            background-color: #fff !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            font-size: 10pt;
+            -webkit-print-color-adjust: exact !important; 
+            color-adjust: exact !important;
+            display: flex; /* Make body a flex container too */
+            flex-direction: column; /* Body arranges children vertically */
+        }
 
-    #invoice-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        min-height: 0 !important; /* Remove min-height screen constraint */
-        height: auto; /* Let flex children determine height */
-        flex-grow: 1; /* CRITICAL: Allow container to grow within body */
-        margin: 0 !important;
-        padding: 0 !important; /* Remove container padding if content has it */
-        border: none !important;
-        box-shadow: none !important;
-        display: flex !important; /* Keep flex */
-        flex-direction: column !important; /* Keep column direction */
-        overflow: visible !important;
-        border-radius: 0 !important;
-        /* page-break-inside: avoid !important; REMOVE THIS - it conflicts with wanting footer at bottom if content is short */
-    }
+        #invoice-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 0 !important; /* Remove min-height screen constraint */
+            height: auto; /* Let flex children determine height */
+            flex-grow: 1; /* CRITICAL: Allow container to grow within body */
+            margin: 0 !important;
+            padding: 0 !important; /* Remove container padding if content has it */
+            border: none !important;
+            box-shadow: none !important;
+            display: flex !important; /* Keep flex */
+            flex-direction: column !important; /* Keep column direction */
+            overflow: visible !important;
+            border-radius: 0 !important;
+            /* page-break-inside: avoid !important; REMOVE THIS - it conflicts with wanting footer at bottom if content is short */
+        }
 
-    #invoice-main-content {
-        flex-grow: 1 !important; /* Allow main content to take available space */
-        padding: 5mm 0 5mm 0 !important; /* Adjust padding - use page margin for sides */
-        width: 100% !important; /* Takes width from container */
-        height: auto; /* Let content determine its height */
-        /* Add page-break-inside avoid *here* if you want to prevent the main content block itself from splitting */
-        page-break-inside: avoid !important;
-    }
+        #invoice-main-content {
+            flex-grow: 1 !important; /* Allow main content to take available space */
+            padding: 5mm 0 5mm 0 !important; /* Adjust padding - use page margin for sides */
+            width: 100% !important; /* Takes width from container */
+            height: auto; /* Let content determine its height */
+            /* Add page-break-inside avoid *here* if you want to prevent the main content block itself from splitting */
+            page-break-inside: avoid !important;
+        }
 
-    /* --- Header/Footer Print Placement --- */
-    .invoice-header-img {
-        display: block !important;
-        width: 100% !important;
-        margin: 0 !important; /* Remove margin */
-        padding: 0 !important;
-        /* Add some bottom margin if needed for space *below* the header */
-        margin-bottom: 10px !important;
-        page-break-inside: avoid !important;
-        flex-shrink: 0; /* Prevent header from shrinking */
-    }
+        /* --- Header/Footer Print Placement --- */
+        .invoice-header-img {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 !important; /* Remove margin */
+            padding: 0 !important;
+            /* Add some bottom margin if needed for space *below* the header */
+            margin-bottom: 10px !important;
+            page-break-inside: avoid !important;
+            flex-shrink: 0; /* Prevent header from shrinking */
+        }
 
-    .invoice-footer-img {
-        display: block !important;
-        width: 100% !important;
-        margin: 0 !important; /* REMOVE ALL MARGINS INITIALLY */
-        /* Add margin-top for space *above* the footer */
-        margin-top: 5mm !important; /* Adjust as needed for visual spacing */
-        padding: 0 !important;
-        page-break-inside: avoid !important;
-        page-break-before: auto;
-        flex-shrink: 0; /* Prevent footer from shrinking */
-        /* Position it at the end of the flex flow */
-    }
+        .invoice-footer-img {
+            display: block !important;
+            width: 100% !important;
+            margin: 0 !important; /* REMOVE ALL MARGINS INITIALLY */
+            /* Add margin-top for space *above* the footer */
+            margin-top: 5mm !important; /* Adjust as needed for visual spacing */
+            padding: 0 !important;
+            page-break-inside: avoid !important;
+            page-break-before: auto;
+            flex-shrink: 0; /* Prevent footer from shrinking */
+            /* Position it at the end of the flex flow */
+        }
 
-    /* --- Hide elements not needed for print --- */
-    .action-buttons, .modal-overlay, .delete-item-btn,
-    #invoice-items thead th:last-child, /* Hide Action header */
-    #invoice-items tbody td:last-child, /* Hide Action cell in body */
-    #invoice-items tfoot td:last-child /* Hide Action cell in footer */
-    {
-        display: none !important;
-    }
+        /* --- Hide elements not needed for print --- */
+        .action-buttons, .modal-overlay, .delete-item-btn,
+        #invoice-items thead th:last-child, /* Hide Action header */
+        #invoice-items tbody td:last-child, /* Hide Action cell in body */
+        #invoice-items tfoot td:last-child /* Hide Action cell in footer */
+        {
+            display: none !important;
+        }
 
-    /* Remove scroll wrapper for print */
-    .invoice-items-wrapper { overflow: visible !important; margin-bottom: 10px !important; }
+        /* Remove scroll wrapper for print */
+        .invoice-items-wrapper { overflow: visible !important; margin-bottom: 10px !important; }
 
-    /* Ensure table layout is standard for print */
-    #invoice-items { width: 100% !important; min-width: 0 !important; border-collapse: collapse !important; border-spacing: 0 !important; }
-    #invoice-items thead { display: table-header-group !important; }
-    #invoice-items tbody, #invoice-items tfoot { display: table-row-group !important; }
-    #invoice-items tr { display: table-row !important; page-break-inside: avoid !important; }
+        /* Ensure table layout is standard for print */
+        #invoice-items { width: 100% !important; min-width: 0 !important; border-collapse: collapse !important; border-spacing: 0 !important; }
+        #invoice-items thead { display: table-header-group !important; }
+        #invoice-items tbody, #invoice-items tfoot { display: table-row-group !important; }
+        #invoice-items tr { display: table-row !important; page-break-inside: avoid !important; }
 
-    /* --- Remove ALL Table Borders for Print --- */
-    #invoice-items th, #invoice-items td {
-        display: table-cell !important; width: auto !important;
-        border: none !important; /* NO BORDERS */
-        padding: 3px 5px !important; /* Reduced padding */
-        font-size: 9.5pt !important;
-        vertical-align: top !important;
-        white-space: normal !important;
-    }
-    #invoice-items th { background-color: #f0f0f0 !important; font-weight: bold; padding: 4px 5px !important; }
-    #invoice-items td.number, #invoice-items th.number { text-align: right !important; }
+        /* --- Remove ALL Table Borders for Print --- */
+        #invoice-items th, #invoice-items td {
+            display: table-cell !important; width: auto !important;
+            border: none !important; /* NO BORDERS */
+            padding: 3px 5px !important; /* Reduced padding */
+            font-size: 9.5pt !important;
+            vertical-align: top !important;
+            white-space: normal !important;
+        }
+        #invoice-items th { background-color: #f0f0f0 !important; font-weight: bold; padding: 4px 5px !important; }
+        #invoice-items td.number, #invoice-items th.number { text-align: right !important; }
 
-    /* Style Inputs/TextAreas for Print */
-    /* ... (keep your input styles) ... */
-    .invoice-meta input[type="text"], .invoice-meta input[type="date"], .invoice-meta textarea,
-    #invoice-items input[type="number"], #invoice-items textarea.item-name {
-        border: none !important; background-color: transparent !important; padding: 0 !important; margin: 0; box-shadow: none !important; outline: none !important; width: 100%; display: block; color: #000 !important; font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; -webkit-appearance: none; -moz-appearance: none; appearance: none;
-    }
-    .invoice-meta textarea, #invoice-items textarea.item-name { resize: none !important; overflow: hidden !important; height: auto !important; white-space: pre-wrap; word-wrap: break-word; }
-    #invoice-items input[type="number"] { text-align: right; width: auto; display: inline; -moz-appearance: textfield; }
+        /* Style Inputs/TextAreas for Print */
+        /* ... (keep your input styles) ... */
+        .invoice-meta input[type="text"], .invoice-meta input[type="date"], .invoice-meta textarea,
+        #invoice-items input[type="number"], #invoice-items textarea.item-name {
+            border: none !important; background-color: transparent !important; padding: 0 !important; margin: 0; box-shadow: none !important; outline: none !important; width: 100%; display: block; color: #000 !important; font-family: inherit !important; font-size: inherit !important; line-height: inherit !important; -webkit-appearance: none; -moz-appearance: none; appearance: none;
+        }
+        .invoice-meta textarea, #invoice-items textarea.item-name { resize: none !important; overflow: hidden !important; height: auto !important; white-space: pre-wrap; word-wrap: break-word; }
+        #invoice-items input[type="number"] { text-align: right; width: auto; display: inline; -moz-appearance: textfield; }
 
-    /* Table Footer Specifics for Print (No Borders, subtle spacing) */
-    #invoice-items tfoot { margin-top: 3mm !important; }
-    #invoice-items tfoot td {
-        border: none !important; /* Ensure no borders */
-        border-top: 1pt solid #bbb !important; /* Keep subtle top border ONLY */
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
-        font-weight: bold;
-    }
-    #invoice-items tfoot tr:not(:first-child) td { border-top: none !important; }
-    #invoice-items tfoot tr:first-child td { border-top: 1pt solid #999 !important; }
+        /* Table Footer Specifics for Print (No Borders, subtle spacing) */
+        #invoice-items tfoot { margin-top: 3mm !important; }
+        #invoice-items tfoot td {
+            border: none !important; /* Ensure no borders */
+            border-top: 1pt solid #bbb !important; /* Keep subtle top border ONLY */
+            padding-top: 4px !important;
+            padding-bottom: 4px !important;
+            font-weight: bold;
+        }
+        #invoice-items tfoot tr:not(:first-child) td { border-top: none !important; }
+        #invoice-items tfoot tr:first-child td { border-top: 1pt solid #999 !important; }
 
-    .terms-conditions {
-        border-top: none !important;
-        margin-top: 5mm !important;
-        padding-top: 0 !important;
-        font-size: 8.5pt !important;
-        page-break-inside: avoid !important;
-        flex-shrink: 0; /* Prevent terms from shrinking if part of main flex flow */
-        /* If terms are *outside* #invoice-main-content but inside #invoice-container: */
-        /* margin-bottom: 5mm; /* Add space before footer */
-    }
+        .terms-conditions {
+            border-top: none !important;
+            margin-top: 5mm !important;
+            padding-top: 0 !important;
+            font-size: 8.5pt !important;
+            page-break-inside: avoid !important;
+            flex-shrink: 0; /* Prevent terms from shrinking if part of main flex flow */
+            /* If terms are *outside* #invoice-main-content but inside #invoice-container: */
+            /* margin-bottom: 5mm; /* Add space before footer */
+        }
 
-} /* End @media print */
+        /* Hide the generate button in print */
+        .generate-btn {
+            display: none !important;
+        }
+
+        /* Ensure the input takes full width in print when button is hidden */
+        .input-with-button input[type="text"] {
+                width: 100% !important;
+        }
+        .input-with-button {
+            display: block; /* Revert flex for print if needed */
+        }
+
+    } /* End @media print */    
     
     </style>
 </head>
@@ -460,7 +549,15 @@
 
             <!-- 2. Invoice Meta Information -->
             <section class="invoice-meta">
-                <div> <label for="invoice-number">Invoice #</label> <input type="text" id="invoice-number" placeholder="e.g., INV-001"> </div>
+                <!-- MODIFIED: Added a wrapper div and the button -->
+                <div>
+                    <label for="invoice-number">Invoice #</label>
+                    <div class="input-with-button">
+                        <input type="text" id="invoice-number" placeholder="e.g., INV-001">
+                        <button id="generate-invoice-num-btn" class="generate-btn" title="Generate Invoice Number">🔄</button>
+                    </div>
+                </div>
+                <!-- END MODIFICATION -->
                 <div> <label for="invoice-date">Date Issued</label> <input type="date" id="invoice-date"> </div>
                 <div> <label for="due-date">Due Date</label> <input type="date" id="due-date"> </div>
                 <div> <label for="client-details">Bill To:</label> <textarea id="client-details" placeholder="Client Name" rows="5"></textarea> </div>
@@ -534,6 +631,33 @@
         </div>
     </div>
 
+    <!-- Discount Modal -->
+    <div id="discount-modal-overlay" class="modal-overlay">
+        <div id="discount-modal-content" class="modal-content">
+            <h2>Set Discount Percentage</h2>
+            <label for="modal-discount-percent">Discount (%):</label>
+            <input type="number" id="modal-discount-percent" placeholder="e.g., 10" min="0" max="100" step="0.01">
+            <div class="modal-buttons">
+                <button id="discount-modal-save-btn">Save Discount</button>
+                <button id="discount-modal-cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal-overlay" class="modal-overlay">
+        <div id="delete-confirm-modal-content" class="modal-content">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete the following item?</p>
+            <div id="delete-item-details" style="background-color: #f8f9fa; border: 1px solid #eee; padding: 10px 15px; margin: 15px 0; border-radius: 5px; font-size: 0.95em;">
+                <!-- Item details will be populated here -->
+            </div>
+            <div class="modal-buttons">
+                    <button id="delete-confirm-btn" style="background-color: #dc3545; color: white;">Yes, Delete Item</button>
+                    <button id="delete-cancel-btn" style="background-color: #6c757d; color: white;">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- Configuration: Define Company Profiles ---
@@ -546,24 +670,9 @@
                 footer: "img/default_footer.png"
             },
             {
-                name: "Creative Solutions Ltd.",
-                header: "./img/header2.png",   // Example: create this file
-                footer: "./img/footer2.png"    // Example: create this file
-            },
-            {
                 name: "AJ Solutions (Pvt) Ltd..",
                 header: "img/aj_solutions_header.png",       // Example: create this file
                 footer: "img/aj_solutions_footer.png"        // Example: create this file
-            },
-             {
-                name: "Global Corp",
-                header: "img/global_header.png",       // Example: create this file
-                footer: "img/global_footer.png"        // Example: create this file
-            },
-             {
-                name: "Green Energy Co.",
-                header: "img/green_header.png",       // Example: create this file
-                footer: "img/green_footer.png"        // Example: create this file
             },
             // Add more profiles as needed
         ];
@@ -573,6 +682,7 @@
         const invoiceHeaderImg = document.getElementById('invoice-header'); // Get header img element
         const invoiceFooterImg = document.getElementById('invoice-footer'); // Get footer img element
         const invoiceNumberInput = document.getElementById('invoice-number');
+        const generateInvoiceNumBtn = document.getElementById('generate-invoice-num-btn');
         const invoiceDateInput = document.getElementById('invoice-date');
         const dueDateInput = document.getElementById('due-date');
         const clientDetailsInput = document.getElementById('client-details');
@@ -593,6 +703,18 @@
         const companyOptionsList = document.getElementById('company-options-list');   // New list container
         const companyModalOkBtn = document.getElementById('company-modal-ok-btn');     // New OK button
         const companyModalCancelBtn = document.getElementById('company-modal-cancel-btn'); // New Cancel button
+
+        // Discount Modal (NEW)
+        const discountModalOverlay = document.getElementById('discount-modal-overlay');
+        const discountModalSaveBtn = document.getElementById('discount-modal-save-btn');
+        const discountModalCancelBtn = document.getElementById('discount-modal-cancel-btn');
+        const modalDiscountPercentInput = document.getElementById('modal-discount-percent');
+        // Delete Confirmation Modal (NEW)
+        const deleteConfirmModalOverlay = document.getElementById('delete-confirm-modal-overlay');
+        const deleteItemDetailsDiv = document.getElementById('delete-item-details');
+        const deleteConfirmBtn = document.getElementById('delete-confirm-btn');
+        const deleteCancelBtn = document.getElementById('delete-cancel-btn');
+
         // Totals
         const subtotalEl = document.getElementById('subtotal');
         const discountRow = document.getElementById('discount-row');
@@ -605,6 +727,7 @@
         let discountPercent = 0;
         let nextItemId = 1;
         let currentProfileName = companyProfiles[0].name; // Track current profile name, default to first
+        let itemIdToDelete = null; // (NEW) State variable for delete confirmation
 
         // --- Utility Functions ---
         const formatCurrency = (amount) => { /* ... (same as before) ... */
@@ -619,6 +742,22 @@
              const today = new Date(); const year = today.getFullYear(); const month = String(today.getMonth() + 1).padStart(2, '0'); const day = String(today.getDate()).padStart(2, '0'); return `${year}-${month}-${day}`; };
 
         // --- Core Functions ---
+
+        // *** NEW Function: Generate Invoice Number ***
+        const generateInvoiceNumber = () => {
+            const now = new Date();
+            const year = now.getFullYear().toString().slice(-2); // Last 2 digits of year
+
+            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            const month = months[now.getMonth()]; // 3-letter uppercase month
+
+            const hours = String(now.getHours()).padStart(2, '0'); // HH
+            const minutes = String(now.getMinutes()).padStart(2, '0'); // MM
+            const seconds = String(now.getSeconds()).padStart(2, '0'); // SS
+
+            return `${year}${month}${hours}${minutes}${seconds}`; // Combine: YYMMMHHMMSS
+        };
+        // *** END NEW Function ***
 
         // Updates header/footer images based on the profile name
         const applyCompanyProfile = (profileName) => {
@@ -662,7 +801,13 @@
             qtyInput.addEventListener('input', () => { updateItemData(item.id, 'qty', getInputValueAsNumber(qtyInput), true); });
             priceInput.addEventListener('input', () => { const rawPrice = getInputValueAsNumber(priceInput); updateItemData(item.id, 'price', rawPrice, true); });
             priceInput.addEventListener('blur', () => { priceInput.value = formatCurrency(item.price); });
-            row.querySelector('.delete-item-btn').addEventListener('click', handleDeleteItem);
+            // *** MODIFIED: Attach listener for the delete button to open the confirmation modal ***
+            row.querySelector('.delete-item-btn').addEventListener('click', (event) => {
+                const button = event.target;
+                const id = parseInt(button.dataset.id, 10);
+                handleOpenDeleteConfirmModal(id); // Call the modal opener
+            });
+            // *** END MODIFICATION ***
             itemsTbody.appendChild(row); autoGrowTextarea(nameTextarea);
          };
 
@@ -725,17 +870,86 @@
             handleCloseCompanyModal();
         };
 
-        // --- Other Handlers ---
-        const handleDeleteItem = (event) => { /* ... (same as before) ... */
-             const button = event.target; const idToDelete = parseInt(button.dataset.id, 10); const row = button.closest('tr');
-             if (row && confirm('Are you sure you want to delete this item?')) { invoiceItems = invoiceItems.filter(item => item.id !== idToDelete); row.remove(); updateTotals(); }
-         };
-        const handleAddDiscount = () => { /* ... (same as before) ... */
-             const currentDiscount = discountPercent; const discountInput = prompt(`Enter discount percentage (%):`, currentDiscount); if (discountInput === null) return; let newDiscount = parseFloat(discountInput);
-             if (isNaN(newDiscount) || newDiscount < 0 || newDiscount > 100) { alert('Please enter a valid discount percentage between 0 and 100.'); return; }
-             newDiscount = Math.round(newDiscount * 100) / 100; discountPercent = newDiscount; updateTotals();
+        // --- Discount Modal Functions (NEW) ---
+        const handleOpenDiscountModal = () => {
+            modalDiscountPercentInput.value = discountPercent; // Set current discount in modal
+            discountModalOverlay.style.display = 'flex';
+            modalDiscountPercentInput.focus();
+            modalDiscountPercentInput.select();
         };
-        const handlePrint = () => { /* ... (same as before, includes setTimeout) ... */
+        const handleCloseDiscountModal = () => {
+            discountModalOverlay.style.display = 'none';
+        };
+        const handleSaveDiscount = () => {
+            let newDiscount = parseFloat(modalDiscountPercentInput.value);
+            if (isNaN(newDiscount) || newDiscount < 0 || newDiscount > 100) {
+                alert('Please enter a valid discount percentage between 0 and 100.');
+                modalDiscountPercentInput.focus();
+                return;
+            }
+            newDiscount = Math.round(newDiscount * 100) / 100; // Round to 2 decimal places
+            discountPercent = newDiscount;
+            updateTotals(); // updateTotals calls saveDataToLocalStorage
+            handleCloseDiscountModal();
+        };
+
+        // --- Delete Confirmation Modal Functions (NEW) ---
+        const handleOpenDeleteConfirmModal = (id) => {
+            const item = invoiceItems.find(i => i.id === id);
+            if (!item) {
+                console.error("Item not found for deletion confirmation:", id);
+                alert("Error: Could not find the item to delete.");
+                return;
+            }
+            itemIdToDelete = id; // Store the ID for confirmation step
+
+            // Populate the details div
+            deleteItemDetailsDiv.innerHTML = `
+                <strong>Item:</strong> ${item.name || '[No Name]'}<br>
+                <strong>Quantity:</strong> ${item.qty || 0}<br>
+                <strong>Unit Price:</strong> ${formatCurrency(item.price)}<br>
+                <strong>Total:</strong> ${formatCurrency((item.qty || 0) * (item.price || 0))}
+            `;
+
+            deleteConfirmModalOverlay.style.display = 'flex';
+        };
+
+        const handleCloseDeleteConfirmModal = () => {
+            deleteConfirmModalOverlay.style.display = 'none';
+            deleteItemDetailsDiv.innerHTML = ''; // Clear details
+            itemIdToDelete = null; // Reset the ID
+        };
+
+        const handleConfirmDeleteItem = () => {
+            if (itemIdToDelete === null) {
+                console.error("No item ID stored for deletion.");
+                handleCloseDeleteConfirmModal(); // Close modal anyway
+                return;
+            }
+
+            const row = itemsTbody.querySelector(`tr[data-id="${itemIdToDelete}"]`);
+            if (row) {
+                invoiceItems = invoiceItems.filter(item => item.id !== itemIdToDelete);
+                row.remove();
+                updateTotals(); // updateTotals calls saveDataToLocalStorage
+            } else {
+                console.warn(`Row with ID ${itemIdToDelete} not found in the DOM for deletion.`);
+                // Still attempt to update state and totals in case the DOM was out of sync
+                invoiceItems = invoiceItems.filter(item => item.id !== itemIdToDelete);
+                updateTotals();
+            }
+
+            handleCloseDeleteConfirmModal(); // Close modal after action
+        };
+
+        
+        // *** MODIFIED: handleAddDiscount now opens the modal ***
+        const handleAddDiscount = () => {
+             handleOpenDiscountModal(); // Open the custom modal instead of prompt
+        };
+        // *** END MODIFICATION ***
+
+        const handlePrint = () => { 
              document.querySelectorAll('#invoice-items textarea.item-name, #client-details').forEach(autoGrowTextarea);
              const activeElement = document.activeElement; if (activeElement && typeof activeElement.blur === 'function') { activeElement.blur(); }
              setTimeout(() => { window.print(); }, 100);
@@ -819,7 +1033,27 @@
         addDiscountBtn.addEventListener('click', handleAddDiscount);
         printBtn.addEventListener('click', handlePrint);
 
-        // Save data on input/change for meta fields & address textareaS
+        // *** NEW Listener for the Generate Invoice Number button ***
+        generateInvoiceNumBtn.addEventListener('click', () => {
+            invoiceNumberInput.value = generateInvoiceNumber();
+            // Manually trigger save after generating, as 'input' event might not fire
+            saveDataToLocalStorage();
+        });
+        // *** END NEW Listener ***
+
+        // *** NEW Listeners for Discount Modal ***
+        discountModalSaveBtn.addEventListener('click', handleSaveDiscount);
+        discountModalCancelBtn.addEventListener('click', handleCloseDiscountModal);
+        discountModalOverlay.addEventListener('click', (e) => { if (e.target === discountModalOverlay) handleCloseDiscountModal(); });
+        modalDiscountPercentInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSaveDiscount(); }); // Optional: Save on Enter
+
+        // *** NEW Listeners for Delete Confirmation Modal ***
+        deleteConfirmBtn.addEventListener('click', handleConfirmDeleteItem);
+        deleteCancelBtn.addEventListener('click', handleCloseDeleteConfirmModal);
+        deleteConfirmModalOverlay.addEventListener('click', (e) => { if (e.target === deleteConfirmModalOverlay) handleCloseDeleteConfirmModal(); });
+
+        // Save data on input/change for meta fields & address textareas
+        // NOTE: This listener still works if the user manually edits the generated number
         invoiceNumberInput.addEventListener('input', saveDataToLocalStorage);
         invoiceDateInput.addEventListener('change', saveDataToLocalStorage);
         dueDateInput.addEventListener('change', saveDataToLocalStorage);
